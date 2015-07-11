@@ -1,0 +1,6 @@
+spring:
+    profiles:
+        active: development
+app:
+    name: entropy
+    description: ${app.name} is a weird game
