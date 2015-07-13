@@ -1,14 +1,9 @@
 package org.playentropy.user;
 
-import java.io.Serializable;
 import org.springframework.security.core.GrantedAuthority;
 import java.util.Collection;
 import org.springframework.security.core.userdetails.UserDetails;
-import java.util.List;
 import java.util.ArrayList;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.annotation.Transient;
 
 public class UserSecurityDetails implements UserDetails {
 

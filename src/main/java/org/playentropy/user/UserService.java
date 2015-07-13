@@ -28,14 +28,9 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsername(username);
     }
 
-    public boolean loginUser(String username, String password) {
-        User user = findByUsername(username);
-        return true;
-    }
-
     public User createUser(User user) {
         user.setPasswordHash(passwordEncoder.encode(user.getPassword()));
-        user.setPassword("");
+        user.setPassword(""); // clear the password, just for good measure
         return userRepository.save(user);
     }
 
