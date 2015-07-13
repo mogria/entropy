@@ -6,3 +6,13 @@ spring:
         mongodb:
             host: localhost
             port: 27017
+    thymeleaf:
+        cache: false
+
+logging:
+    level:
+        org:
+            springframework:
+                security: DEBUG
+                web: DEBUG
+

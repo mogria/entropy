@@ -1,0 +1,9 @@
+<form action="#" th:action="@{/users}" th:object="${user}" method="post">
+    username: <input type="text" th:field="*{username}" /><br />
+    email: <input type="text" th:field="*{email}" /><br />
+    password: <input type="password" th:field="*{password}" /><br />
+    &quot; confirmation: <input type="password" name="password_confirmation" value="" />
+
+    <input type="hidden" th:name="${_csrf.parameterName}"  th:value="${_csrf.token}" />
+    <input type="submit" value="create" />
+</form>

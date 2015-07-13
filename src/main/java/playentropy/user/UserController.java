@@ -3,8 +3,9 @@ package org.playentropy.user;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.ui.Model;
+import org.springframework.stereotype.Controller;
 
-@RestController
+@Controller
 @RequestMapping(value="/users")
 public class UserController {
 
@@ -17,15 +18,28 @@ public class UserController {
 
     @RequestMapping(value="/{id}", method=RequestMethod.GET)
     public String getUser(@PathVariable String id, Model model) {
-        model.addAttribute("user", userService.findById(id));
-        return "user/user";
+        User user = userService.findById(id);
+        model.addAttribute("user", user);
+        return "users/user";
+    }
+
+    @RequestMapping(value="/new", method=RequestMethod.GET)
+    public String getUserForm(Model model) {
+        model.addAttribute("user", new User());
+        return "users/userForm";
+    }
+
+    @RequestMapping(method=RequestMethod.POST)
+    public String createUser(@ModelAttribute User newUser, Model model) {
+        model.addAttribute("user", newUser);
+        if(userService.createUser(newUser) != null) {
+            return "template";
+        } else {
+            return "users/userForm";
+        }
     }
 
     /* 
-    @RequestMapping(value="/", method=RequestMethod.POST)
-    public User createUser() {
-    }
-
     @RequestMapping(value="/{user}", method=RequestMethod.POST)
     public User updateUser() {
     }

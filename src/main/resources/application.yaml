@@ -1,4 +1,6 @@
 spring:
+    typeleaf:
+        enabled: true
     profiles:
         active: development
 app:
