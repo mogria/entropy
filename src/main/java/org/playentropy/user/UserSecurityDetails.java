@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import java.util.Collection;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 public class UserSecurityDetails implements UserDetails {
 
@@ -25,7 +26,9 @@ public class UserSecurityDetails implements UserDetails {
 
     @Override
     public Collection<GrantedAuthority> getAuthorities() {
-        return new ArrayList<GrantedAuthority>();
+        ArrayList<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        return authorities;
     }
 
     @Override

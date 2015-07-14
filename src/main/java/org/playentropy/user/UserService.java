@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
+import java.util.Collection;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -26,6 +27,9 @@ public class UserService implements UserDetailsService {
         return userRepository.findOne(id);
     }
 
+    public Collection<User> getAll() {
+        return userRepository.findAll();
+    }
 
     public User createUser(User user, BindingResult errors) {
         userValidator.validate(user, errors);

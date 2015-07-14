@@ -1,0 +1,12 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">>
+<div layout:fragment="content">
+    <div th:each="user : ${users}">
+        <div>
+            <span th:text="${user.username}">some user</span>
+            <a href="#" th:href="@{/users/} + ${user.id}">view</a>
+        </div>
+    </div>
+</div>
+</html>

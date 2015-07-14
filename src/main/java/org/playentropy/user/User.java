@@ -26,6 +26,10 @@ public class User implements Serializable {
 
     private String passwordHash;
 
+    public String getId() {
+        return this.id;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
