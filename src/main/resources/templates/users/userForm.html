@@ -2,7 +2,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="layout">>
 <div layout:fragment="content">
-    <form action="#" th:action="@{/users}" th:object="${user}" method="post">
+    <form action="#" th:action="@{/register}" th:object="${user}" method="post">
         <div layout:include="formErrors :: errors(errors=${errors})" />
         username: <input type="text" th:field="*{username}" /><br />
         email: <input type="text" th:field="*{email}" /><br />

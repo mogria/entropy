@@ -48,16 +48,14 @@ public class UserController {
     }
 
     @RequestMapping(value="/login", method={RequestMethod.GET, RequestMethod.POST})
-    public String createSessionForm(Model model) {
+    
+    public String createSessionForm(
+        Model model,
+        @RequestParam(value="error", defaultValue="0") boolean error
+    ) {
         model.addAttribute("user", new User());
-        return "session/loginForm";
+        model.addAttribute("error", error);
+        return "users/loginForm";
     }
-
-    /* 
-    @RequestMapping(value="/login", method=RequestMethod.POST)
-    public String createSession(Model model) {
-        model.addAttribute("user", new User());
-        return "session/loginForm";
-    } */
 }
 
