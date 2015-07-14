@@ -4,6 +4,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
+import org.springframework.validation.BindingResult;
 
 @Controller
 @RequestMapping(value="/users")
@@ -30,11 +32,12 @@ public class UserController {
     }
 
     @RequestMapping(method=RequestMethod.POST)
-    public String createUser(@ModelAttribute User newUser, Model model) {
+    public String createUser(Model model, @ModelAttribute("user") User newUser, BindingResult result) {
         model.addAttribute("user", newUser);
-        if(userService.createUser(newUser) != null) {
+        if(userService.createUser(newUser, result) != null) {
             return "template";
         } else {
+            model.addAttribute("errors", result);
             return "users/userForm";
         }
     }

@@ -6,16 +6,19 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.BindingResult;
 
 @Service
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserValidator userValidator;
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, UserValidator userValidator, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.userValidator = userValidator;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -24,13 +27,14 @@ public class UserService implements UserDetailsService {
     }
 
 
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
+    public User createUser(User user, BindingResult errors) {
+        userValidator.validate(user, errors);
 
-    public User createUser(User user) {
         user.setPasswordHash(passwordEncoder.encode(user.getPassword()));
-        user.setPassword(""); // clear the password, just for good measure
+        user.setPassword(null); // clear the password, just for good measure
+        user.setPasswordConfirmation(null);
+
+        if(errors.hasErrors()) return null;
         return userRepository.save(user);
     }
 
@@ -38,7 +42,7 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username)
         throws UsernameNotFoundException {
-        User user = findByUsername(username);
+        User user = userRepository.findByUsernameIgnoreCase(username);
         if(user == null) throw new UsernameNotFoundException("no user named '" + username + "'");
         return new UserSecurityDetails(user);
     }

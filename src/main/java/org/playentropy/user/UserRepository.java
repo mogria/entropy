@@ -8,5 +8,6 @@ public interface UserRepository extends MongoRepository<User, String> {
 
     Page<User> findAll(Pageable pageable);
 
-    User findByUsername(String username);
+    User findByUsernameIgnoreCase(String username);
+    User findByEmailIgnoreCase(String email);
 }

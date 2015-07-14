@@ -1,0 +1,4 @@
+<div layout:fragment="submit(text, _csrf)">
+    <input type="hidden" th:name="${_csrf.parameterName}"  th:value="${_csrf.token}" />
+    <input type="submit" name="submit" th:value="${text}" value="submit" />
+</div>

@@ -1,0 +1,7 @@
+<div layout:fragment="errors">
+    <ul th:if="${errors}" class="form-errors">
+        <li th:each="error : ${errors.getAllErrors()}">
+            <div th:text="#{${error.getCode()}}"/>
+        </li>
+    </ul>
+</div>
