@@ -1,14 +1,25 @@
-package org.playentropy.circuitboard;
+package org.playentropy.circuit;
 
-class Field {
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.annotation.PersistenceConstructor;
+import java.io.Serializable;
+
+class Field implements Serializable {
+    @Transient
     private final Vector position;
+
     private Piece content;
+
+    @PersistenceConstructor
+    public Field(Piece content) {
+        this(new Vector(0, 0), content);
+    }
 
     public Field(final Vector position, Piece content) {
         assert content != null;
-
-        this.position = position;
         this.content = content;
+        this.position = position;
     }
 
     public int getX() {

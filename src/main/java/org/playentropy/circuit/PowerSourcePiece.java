@@ -1,10 +1,12 @@
-package org.playentropy.circuitboard;
+package org.playentropy.circuit;
 
 import java.util.Collection;
+import org.springframework.data.annotation.PersistenceConstructor;
 
 public class PowerSourcePiece extends AbstractPiece {
     private Energy outputEnergy;
 
+    @PersistenceConstructor
     public PowerSourcePiece(Energy outputEnergy) {
         super(new Vector(2, 1));
 

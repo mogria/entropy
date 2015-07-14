@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.playentropy.circuit.Board;
 
 public class User implements Serializable {
     @Id
@@ -25,6 +27,8 @@ public class User implements Serializable {
     private String passwordConfirmation;
 
     private String passwordHash;
+
+    private Board board;
 
     public String getId() {
         return this.id;
@@ -68,6 +72,14 @@ public class User implements Serializable {
 
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
+    }
+
+    public Board getBoard() {
+        return this.board;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
     }
 
 }

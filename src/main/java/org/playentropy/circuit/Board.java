@@ -1,21 +1,44 @@
-package org.playentropy.circuitboard;
+package org.playentropy.circuit;
 import java.util.HashMap;
 import java.util.Collection;
 import java.util.ArrayList;
 import java.util.stream.Stream;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.annotation.PersistenceConstructor;
+import java.io.Serializable;
 
-public class Board {
+public class Board implements Serializable {
     public class PieceAlreadyInUseException extends Exception {
     }
     public class NoSpaceException extends Exception {
     }
 
     private ArrayList<ArrayList<Field>> board;
+
     private final Vector boardSize;
 
+    @Transient
     private HashMap<Piece, Vector> pieces = new HashMap<Piece, Vector>();
 
-    private final NullPiece NULL_PIECE = new NullPiece();
+    @Transient
+    private static final NullPiece NULL_PIECE = new NullPiece();
+
+    @PersistenceConstructor
+    public Board(ArrayList<ArrayList<Field>> fields, Vector boardSize) {
+        this(boardSize);
+        for(int x = 0; x < boardSize.getX(); x++) {
+            for(int y = 0; y < boardSize.getY(); y++) {
+                Field field = fields.get(x).get(y);
+                Piece content = field.getContent();
+
+                board.get(x).get(y).setContent(content);
+
+                if(!(content instanceof NullPiece)) {
+                    pieces.put(content, new Vector(x, y));
+                }
+            }
+        }
+    }
 
     public Board(int x, int y) {
         this(new Vector(x, y));

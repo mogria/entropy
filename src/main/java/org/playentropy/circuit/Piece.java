@@ -1,8 +1,9 @@
-package org.playentropy.circuitboard;
+package org.playentropy.circuit;
 
 import java.util.Collection;
+import java.io.Serializable;
 
-public interface Piece {
+public interface Piece extends Serializable {
     public Vector getSize();
     public Collection<Connector> getConnectors();
 

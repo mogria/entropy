@@ -1,4 +1,4 @@
-package org.playentropy.circuitboard;
+package org.playentropy.circuit;
 
 import java.lang.Math;
 
