@@ -46,4 +46,18 @@ public class UserController {
             return "users/userForm";
         }
     }
+
+    @RequestMapping(value="/login", method={RequestMethod.GET, RequestMethod.POST})
+    public String createSessionForm(Model model) {
+        model.addAttribute("user", new User());
+        return "session/loginForm";
+    }
+
+    /* 
+    @RequestMapping(value="/login", method=RequestMethod.POST)
+    public String createSession(Model model) {
+        model.addAttribute("user", new User());
+        return "session/loginForm";
+    } */
 }
+
