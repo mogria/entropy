@@ -1,10 +1,16 @@
 package org.playentropy.circuit;
 
 import java.lang.Math;
+import java.lang.Override;
 
 public class Vector {
     private final int x;
     private final int y;
+
+    public Vector() {
+        this.x = 0;
+        this.y = 0;
+    }
 
     public Vector(final int x, final int y) {
         this.x = x;
@@ -36,11 +42,17 @@ public class Vector {
         return y;
     }
 
-    @Override public boolean equals(Object other) {
+    @Override
+    public boolean equals(Object other) {
         if(this == other) return true;
         if(!(other instanceof Vector)) return false;
 
         Vector vector = (Vector)other;
         return x == vector.getX() && y == vector.getY();
+    }
+
+    @Override
+    public String toString() {
+        return x + "," + y;
     }
 }

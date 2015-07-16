@@ -23,4 +23,10 @@ public class NullPiece implements Piece {
         return " ";
     }
 
+    public boolean equals(Object object) {
+        if(object == this) return true;
+        if(object instanceof NullPiece) return true;
+        return false;
+    }
+
 }

@@ -12,6 +12,10 @@ spring:
 logging:
     level:
         org:
+            playentropy:
+                circuit: DEBUG
             springframework:
-                security: DEBUG
+                data:
+                    mongodb:
+                        DEBUG
 

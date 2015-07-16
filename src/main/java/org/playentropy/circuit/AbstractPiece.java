@@ -3,9 +3,13 @@ package org.playentropy.circuit;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.stream.Collectors;
+import org.springframework.data.annotation.Transient;
 
 public abstract class AbstractPiece implements Piece {
+    @Transient
     private final Vector size;
+
+    @Transient
     private Collection<Connector> connectors =
         new HashSet<Connector>();
 

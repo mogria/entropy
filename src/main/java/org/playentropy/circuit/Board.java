@@ -6,11 +6,26 @@ import java.util.stream.Stream;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.annotation.PersistenceConstructor;
 import java.io.Serializable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Board implements Serializable {
     public class PieceAlreadyInUseException extends Exception {
+        public PieceAlreadyInUseException(String string) {
+            super(string);
+        }
+        public PieceAlreadyInUseException(String string, Exception wrap) {
+            super(string, wrap);
+        }
     }
     public class NoSpaceException extends Exception {
+        public NoSpaceException(String string) {
+            super(string);
+        }
+        public NoSpaceException(String string, Exception wrap) {
+            super(string, wrap);
+        }
     }
 
     private ArrayList<ArrayList<Field>> board;
@@ -24,14 +39,15 @@ public class Board implements Serializable {
     private static final NullPiece NULL_PIECE = new NullPiece();
 
     @PersistenceConstructor
-    public Board(ArrayList<ArrayList<Field>> fields, Vector boardSize) {
+    public Board(ArrayList<ArrayList<Field>> board, Vector boardSize) {
         this(boardSize);
+
         for(int x = 0; x < boardSize.getX(); x++) {
             for(int y = 0; y < boardSize.getY(); y++) {
-                Field field = fields.get(x).get(y);
+                Field field = board.get(x).get(y);
                 Piece content = field.getContent();
 
-                board.get(x).get(y).setContent(content);
+                this.board.get(x).get(y).setContent(content);
 
                 if(!(content instanceof NullPiece)) {
                     pieces.put(content, new Vector(x, y));
@@ -93,9 +109,12 @@ public class Board implements Serializable {
         assert position != null;
         assert size != null;
 
-        return streamPartialBoard(position, size)
-               .filter(f -> f.getContent() == NULL_PIECE)
-               .count() == size.area();
+
+        long emptyFieldCount = streamPartialBoard(position, size)
+           .filter(f -> f.getContent().equals(NULL_PIECE))
+           .count();
+
+        return  emptyFieldCount == size.area();
 
     }
 
@@ -114,9 +133,9 @@ public class Board implements Serializable {
 
         final Vector size = piece.getSize();
 
-        if(!isPlaceFree(position, size)) throw new NoSpaceException();
-        if(!isWithinBoard(position, size)) throw new NoSpaceException();
-        if(pieces.containsKey(piece)) throw new PieceAlreadyInUseException();
+        if(!isPlaceFree(position, size)) throw new NoSpaceException("place already used by other piece");
+        if(!isWithinBoard(position, size)) throw new NoSpaceException("piece not within board");
+        if(pieces.containsKey(piece)) throw new PieceAlreadyInUseException("the same piece is already on the board");
         pieces.put(piece, position);
 
         streamPartialBoard(position, size)
@@ -169,5 +188,13 @@ public class Board implements Serializable {
             builder.append("\n");
         }
         return builder.toString();
+    }
+
+    public ArrayList<ArrayList<Field>> getBoard() {
+        return board;
+    }
+
+    public Vector getBoardSize() {
+        return boardSize;
     }
 }
