@@ -1,5 +1,6 @@
-import org.playentropy.circuitboard.Vector;
+package org.playentropy.test.circuit;
 
+import org.playentropy.circuit.Vector;
 import org.junit.Test;
 import org.junit.Assert;
 

@@ -15,6 +15,7 @@ logging:
             playentropy:
                 circuit: DEBUG
             springframework:
+                web: DEBUG
                 data:
                     mongodb:
                         DEBUG

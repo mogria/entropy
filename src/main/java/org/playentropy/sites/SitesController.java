@@ -10,4 +10,9 @@ public class SitesController {
     public String welcomePage() {
         return "welcome";
     }
+
+    @RequestMapping(value="/play", method=RequestMethod.GET)
+    public String playPage() {
+        return "play";
+    }
 }

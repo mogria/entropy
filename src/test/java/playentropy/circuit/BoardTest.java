@@ -1,12 +1,12 @@
-package org.playentropy.test.circuitboard;
+package org.playentropy.test.circuit;
 
-import org.playentropy.circuitboard.Piece;
-import org.playentropy.circuitboard.Connector;
-import org.playentropy.circuitboard.NullPiece;
-import org.playentropy.circuitboard.Board;
-import org.playentropy.circuitboard.Board.NoSpaceException;
-import org.playentropy.circuitboard.Board.PieceAlreadyInUseException;
-import org.playentropy.circuitboard.Vector;
+import org.playentropy.circuit.Piece;
+import org.playentropy.circuit.Connector;
+import org.playentropy.circuit.NullPiece;
+import org.playentropy.circuit.Board;
+import org.playentropy.circuit.Board.NoSpaceException;
+import org.playentropy.circuit.Board.PieceAlreadyInUseException;
+import org.playentropy.circuit.Vector;
 import java.util.Collection;
 import java.util.HashSet;
 
