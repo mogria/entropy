@@ -16,7 +16,6 @@ logging:
                 circuit: DEBUG
             springframework:
                 web: DEBUG
-                data:
-                    mongodb:
-                        DEBUG
+                messaging: TRACE
+
 

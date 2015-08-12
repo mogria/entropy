@@ -8,10 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.context.MessageSource;
 import javax.annotation.PostConstruct;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
-public class AppConfig extends WebMvcConfigurerAdapter {
+public class AppConfig {
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
