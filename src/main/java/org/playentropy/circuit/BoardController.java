@@ -28,7 +28,7 @@ public class BoardController {
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-        binder.registerCustomEditor(VectorEditor.class, new VectorEditor());
+        binder.registerCustomEditor(Vector.class, new VectorEditor());
     }
 
     @ModelAttribute("availablePieces")

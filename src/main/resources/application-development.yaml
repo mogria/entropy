@@ -15,7 +15,8 @@ logging:
             playentropy:
                 circuit: DEBUG
             springframework:
-                web: DEBUG
+                web:
+                    socket: TRACE
                 messaging: TRACE
 
 
