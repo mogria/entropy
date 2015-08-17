@@ -1,19 +1,23 @@
-requirejs(["game", "ws", "input", "lib/bean"],
-function(game, ws, input, bean) {
+requirejs(["game", "ws", "input", "player", "lib/bean"],
+function(game, ws, input, Player, bean) {
 
     ws.connect();
 
-    bean.on(game, 'create.end', function() { input.initialize(game); } );
-    bean.on(game, 'update.start', playerMovement);
+    bean.on(game, 'preload', function()  { Player.preload(this); } );
 
+    bean.on(game, 'create', function() { input.initialize(this); } );
+    bean.one(game, 'create', function() {
+        var yourself = new Player(game, 200, 100);
 
-    var previousDirection =  {x: 0, y: 0};
-    function playerMovement() {
-        var direction = input.direction(game);
-        if(direction.x != previousDirection.x || direction.y != previousDirection.y) {
-            previousDirection = direction;
-            ws.sendMove(direction);
-        }
-    }
+        bean.on(game, 'update', function() {
+            yourself.setDirection(input.direction(game));
+        });
+
+        bean.on(yourself, 'direction.change', function() {
+            ws.sendMove(this.direction);
+        });
+
+        yourself.show(game);
+    });
 
 });
