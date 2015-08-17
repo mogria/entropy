@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.playentropy.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.playentropy.user.User;
+import org.playentropy.player.Player;
 
 @Service
 public class BoardService {
@@ -14,22 +15,20 @@ public class BoardService {
     private static final Vector MIN_BOARD_SIZE = new Vector(10, 10);
 
     public void createBoardForUser(User user) {
-        if(user.getBoard() == null) {
-            user.setBoard(new Board(MIN_BOARD_SIZE));
+        Player player = user.getPlayer();
+        if(player.getBoard() == null) {
+            player.setBoard(new Board(MIN_BOARD_SIZE));
         } else {
-            if(user.getBoard().getBoardSize().withinField(new Vector(0, 0), MIN_BOARD_SIZE)) {
-                user.setBoard(new Board(user.getBoard().getBoard(), MIN_BOARD_SIZE));
+            if(player.getBoard().getBoardSize().withinField(new Vector(0, 0), MIN_BOARD_SIZE)) {
+                player.setBoard(new Board(player.getBoard().getBoard(), MIN_BOARD_SIZE));
             }
         }
         userRepository.save(user);
     }
 
-    public void createBoardForUser() {
-    }
-
     public void placePieceOnUserBoard(User user, Piece piece, Vector position) {
         try {
-            user.getBoard().placePiece(piece, position);
+            user.getPlayer().getBoard().placePiece(piece, position);
             userRepository.save(user);
         } catch(Board.NoSpaceException ex) {
             throw new RuntimeException("no place on baord: " + ex.getMessage(), ex);
@@ -39,7 +38,7 @@ public class BoardService {
     }
 
     public void removePieceFromUserBoard(User user, Vector position) {
-        Board board = user.getBoard();
+        Board board = user.getPlayer().getBoard();
         board.removePiece(board.getPieceAt(position));
         userRepository.save(user);
     }

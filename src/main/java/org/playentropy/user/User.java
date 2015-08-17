@@ -9,7 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.playentropy.circuit.Board;
+import org.playentropy.player.Player;
 
 public class User implements Serializable {
     @Id
@@ -28,7 +28,7 @@ public class User implements Serializable {
 
     private String passwordHash;
 
-    private Board board;
+    private Player player;
 
     public String getId() {
         return this.id;
@@ -74,12 +74,12 @@ public class User implements Serializable {
         this.passwordHash = passwordHash;
     }
 
-    public Board getBoard() {
-        return this.board;
+    public Player getPlayer() {
+        return player;
     }
 
-    public void setBoard(Board board) {
-        this.board = board;
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
 }

@@ -7,10 +7,13 @@ function(game, ws, input, bean) {
     bean.on(game, 'update.start', playerMovement);
 
 
+    var previousDirection =  {x: 0, y: 0};
     function playerMovement() {
         var direction = input.direction(game);
-        if(direction.x == 0 && direction.y == 0) return;
-        else ws.sendMove(direction);
+        if(direction.x != previousDirection.x || direction.y != previousDirection.y) {
+            previousDirection = direction;
+            ws.sendMove(direction);
+        }
     }
 
 });
