@@ -9,6 +9,8 @@ import java.io.Serializable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.Map;
+import java.util.Iterator;
 
 public class Board implements Serializable {
     public class PieceAlreadyInUseException extends Exception {
@@ -28,31 +30,29 @@ public class Board implements Serializable {
         }
     }
 
+    @Transient
     private ArrayList<ArrayList<Field>> board;
 
     private final Vector boardSize;
 
-    @Transient
-    private HashMap<Piece, Vector> pieces = new HashMap<Piece, Vector>();
+    private ArrayList<Piece> piecesList = new ArrayList<Piece>();
+
+    private ArrayList<Vector> positionList = new ArrayList<Vector>();
 
     @Transient
     private static final NullPiece NULL_PIECE = new NullPiece();
 
     @PersistenceConstructor
-    public Board(ArrayList<ArrayList<Field>> board, Vector boardSize) {
+    public Board(ArrayList<Piece> piecesList, ArrayList<Vector> positionList, Vector boardSize)
+        throws Board.NoSpaceException,
+               Board.PieceAlreadyInUseException {
         this(boardSize);
 
-        for(int x = 0; x < boardSize.getX(); x++) {
-            for(int y = 0; y < boardSize.getY(); y++) {
-                Field field = board.get(x).get(y);
-                Piece content = field.getContent();
+        assert piecesList.size() == positionList.size();
 
-                this.board.get(x).get(y).setContent(content);
-
-                if(!(content instanceof NullPiece)) {
-                    pieces.put(content, new Vector(x, y));
-                }
-            }
+        int size = piecesList.size();
+        for(int i = 0; i < size; i++) {
+            placePiece(piecesList.get(i), positionList.get(i));
         }
     }
 
@@ -135,8 +135,9 @@ public class Board implements Serializable {
 
         if(!isPlaceFree(position, size)) throw new NoSpaceException("place already used by other piece");
         if(!isWithinBoard(position, size)) throw new NoSpaceException("piece not within board");
-        if(pieces.containsKey(piece)) throw new PieceAlreadyInUseException("the same piece is already on the board");
-        pieces.put(piece, position);
+        if(piecesList.contains(piece)) throw new PieceAlreadyInUseException("the same piece is already on the board");
+        piecesList.add(piece);
+        positionList.add(position);
 
         streamPartialBoard(position, size)
             .forEach(f -> f.setContent(piece));
@@ -146,12 +147,14 @@ public class Board implements Serializable {
         assert piece != null;
         assert !(piece instanceof NullPiece);
 
-        if(!pieces.containsKey(piece)) return;
+        int index = piecesList.indexOf(piece);
+        if(index == -1) return;
 
-        streamPartialBoard(pieces.get(piece), piece.getSize())
+        Vector position = positionList.get(index);
+        streamPartialBoard(position, piece.getSize())
             .forEach(f -> f.setContent(NULL_PIECE));
 
-        pieces.remove(piece);
+        piecesList.remove(index);
     }
 
     public Piece getPieceAt(int x, int y) {
@@ -171,11 +174,13 @@ public class Board implements Serializable {
     }
 
     public Vector getPiecePosition(Piece piece) {
-        return pieces.get(piece);
+        int index = piecesList.indexOf(piece);
+        if(index == -1) return null;
+        else            return positionList.get(index);
     }
 
     public Collection<Piece> getPieces() {
-        return pieces.keySet();
+        return piecesList;
     }
 
     @Override
