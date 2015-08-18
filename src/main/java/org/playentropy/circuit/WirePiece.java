@@ -36,6 +36,11 @@ public class WirePiece extends AbstractPiece {
     }
 
     @Override
+    public String getIdentifier() {
+        return "WirePiece";
+    }
+
+    @Override
     public String toString() {
         Collection<Vector> connected =
             getConnectors().stream()

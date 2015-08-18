@@ -3,6 +3,10 @@ package org.playentropy.circuit;
 public class Energy {
     final Vector energyVector;
 
+    public Energy() {
+        this.energyVector = new Vector();
+    }
+
     public Energy(final Vector energyVector) {
         this.energyVector = energyVector;
     }

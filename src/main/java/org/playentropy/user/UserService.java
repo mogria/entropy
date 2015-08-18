@@ -8,20 +8,24 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import java.util.Collection;
+import org.playentropy.player.Player;
+import org.playentropy.circuit.BoardService;
 
 @Service
 public class UserService implements UserDetailsService {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final UserValidator userValidator;
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, UserValidator userValidator, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.userValidator = userValidator;
-        this.passwordEncoder = passwordEncoder;
-    }
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserValidator userValidator;
+
+    @Autowired
+    private BoardService boardService;
+
 
     public User findById(String id) {
         return userRepository.findOne(id);
@@ -37,6 +41,9 @@ public class UserService implements UserDetailsService {
         user.setPasswordHash(passwordEncoder.encode(user.getPassword()));
         user.setPassword(null); // clear the password, just for good measure
         user.setPasswordConfirmation(null);
+
+        user.setPlayer(new Player());
+        boardService.createBoardForUser(user);
 
         if(errors.hasErrors()) return null;
         return userRepository.save(user);

@@ -33,6 +33,7 @@ public class BoardTest {
             return new HashSet<Connector>();
         }
         public void update() {}
+        public String getIdentifier() { return "Mock"; }
     }
 
     @Before

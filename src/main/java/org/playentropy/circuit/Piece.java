@@ -9,5 +9,7 @@ public interface Piece extends Serializable {
 
     public void update();
 
+    public String getIdentifier();
+
     public String toString();
 }

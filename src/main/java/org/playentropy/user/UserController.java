@@ -6,20 +6,24 @@ import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 
 @Controller
 public class UserController {
 
-    private final UserService userService;
+    @Autowired
+    private UserService userService;
 
     @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
+    private UserPropertyEditor userEditor;
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(User.class, userEditor);
     }
 
     @RequestMapping(value="/users/{id}", method=RequestMethod.GET)
-    public String getUser(@PathVariable String id, Model model) {
-        User user = userService.findById(id);
+    public String getUser(@PathVariable(value="id") User user, Model model) {
         model.addAttribute("user", user);
         return "users/user";
     }

@@ -25,8 +25,14 @@ public class PowerSourcePiece extends AbstractPiece {
     }
 
     @Override
+    public String getIdentifier() {
+        return "PowerSource(" + outputEnergy + ")";
+    }
+
+    @Override
     public String toString() {
         return "@";
     }
+
 }
 

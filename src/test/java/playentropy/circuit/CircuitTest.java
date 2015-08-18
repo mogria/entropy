@@ -59,6 +59,11 @@ public class CircuitTest {
         }
 
         @Override
+        public String getIdentifier() {
+            return "Mock";
+        }
+
+        @Override
         public String toString() {
             return display;
         }
