@@ -1,9 +1,9 @@
-requirejs(["game", "ws", "input", "player", "lib/bean"],
-function(game, ws, input, Player, bean) {
+requirejs(["game", "ws", "chat", "input", "player", "lib/bean"],
+function(game, ws, chat, input, Player, bean) {
 
-    ws.connect();
-
-    bean.on(game, 'preload', function()  { Player.preload(this); } );
+    bean.on(game, 'preload', function() { ws.connect(); } );
+    bean.on(game, 'preload', function() { chat.initialize(); } );
+    bean.on(game, 'preload', function() { Player.preload(this); } );
 
     bean.on(game, 'create', function() { input.initialize(this); } );
     bean.one(game, 'create', function() {

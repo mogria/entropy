@@ -16,7 +16,7 @@ logging:
                 circuit: DEBUG
             springframework:
                 web:
-                    socket: DEBUG
-                messaging: DEBUG
+                    socket: TRACE
+                messaging: TRACE
 
 

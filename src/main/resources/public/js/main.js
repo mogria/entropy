@@ -13,6 +13,9 @@ requirejs.config({
         },
         'lib/phaser': {
             exports: 'Phaser'
+        },
+        'lib/zepto': {
+            exports: 'Zepto'
         }
     }
 });
