@@ -1,7 +1,7 @@
 #!/bin/bash
 
 start() {
-    mvn spring-boot:run &
+    mvn spring-boot:run -Drun.arguments="--spring.output.ansi.enabled=ALWAYS" &
 }
 
 stop() {
