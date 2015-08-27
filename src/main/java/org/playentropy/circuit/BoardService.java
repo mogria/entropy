@@ -19,8 +19,9 @@ public class BoardService {
         if(player.getBoard() == null) {
             player.setBoard(new Board(MIN_BOARD_SIZE));
         } else {
+            // increase default board size if necessary
             if(player.getBoard().getBoardSize().withinField(new Vector(0, 0), MIN_BOARD_SIZE)) {
-                player.setBoard(new Board(player.getBoard().getBoard(), MIN_BOARD_SIZE));
+                player.setBoard(new Board(player.getBoard(), MIN_BOARD_SIZE));
             }
         }
         userRepository.save(user);
@@ -31,7 +32,7 @@ public class BoardService {
             user.getPlayer().getBoard().placePiece(piece, position);
             userRepository.save(user);
         } catch(Board.NoSpaceException ex) {
-            throw new RuntimeException("no place on baord: " + ex.getMessage(), ex);
+            throw new RuntimeException("no place on board: " + ex.getMessage(), ex);
         } catch(Board.PieceAlreadyInUseException ex) {
             throw new RuntimeException("piece already in use", ex);
         }

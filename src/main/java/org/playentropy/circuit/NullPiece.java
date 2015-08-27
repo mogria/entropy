@@ -19,6 +19,11 @@ public class NullPiece implements Piece {
     }
 
     @Override
+    public String getIdentifier() {
+        return "NullPiece";
+    }
+
+    @Override
     public String toString() {
         return " ";
     }

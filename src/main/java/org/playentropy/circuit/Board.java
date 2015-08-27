@@ -42,18 +42,29 @@ public class Board implements Serializable {
     @Transient
     private static final NullPiece NULL_PIECE = new NullPiece();
 
+    @Transient
+    private static Logger log = LoggerFactory.getLogger(Board.class);
+
     @PersistenceConstructor
-    public Board(ArrayList<Piece> piecesList, ArrayList<Vector> positionList, Vector boardSize)
-        throws Board.NoSpaceException,
-               Board.PieceAlreadyInUseException {
+    public Board(ArrayList<Piece> piecesList, ArrayList<Vector> positionList, Vector boardSize) {
         this(boardSize);
 
         assert piecesList.size() == positionList.size();
 
         int size = piecesList.size();
         for(int i = 0; i < size; i++) {
-            placePiece(piecesList.get(i), positionList.get(i));
+            try {
+                placePiece(piecesList.get(i), positionList.get(i));
+            } catch(NoSpaceException ex) {
+                log.warn("NoSpaceException when constructing Board");
+            } catch(PieceAlreadyInUseException ex) {
+                log.warn("PieceAlreadyInUseException when constructing Board");
+            }
         }
+    }
+
+    public Board(Board otherBoard, Vector newBoardSize) {
+        this(otherBoard.getPiecesList(), otherBoard.getPositionList(), newBoardSize);
     }
 
     public Board(int x, int y) {
@@ -179,8 +190,12 @@ public class Board implements Serializable {
         else            return positionList.get(index);
     }
 
-    public Collection<Piece> getPieces() {
+    public ArrayList<Piece> getPiecesList() {
         return piecesList;
+    }
+
+    public ArrayList<Vector> getPositionList() {
+        return positionList;
     }
 
     @Override

@@ -19,7 +19,7 @@ function(SockJS, Stomp) {
                     console.log("name: " + name);
                 });
 
-                stompClient.subscribe('/app/chat', function(chatMessage) {
+                stompClient.subscribe('/chat', function(chatMessage) {
                     console.log(chatMessage);
                     chatMessageCallback(chatMessage);
                 })
@@ -36,9 +36,7 @@ function(SockJS, Stomp) {
             stompClient.send('/app/move', {}, JSON.stringify(direction));
         },
         sendChatMessage: function(message) {
-            stompClient.send('/chat/message', {}, JSON.stringify({
-                "message": message
-            }));
+            stompClient.send('/chat', {}, message + "");
         },
         receiveChatMessage: function(callback) {
             receiveChatMessageCallback = callback;

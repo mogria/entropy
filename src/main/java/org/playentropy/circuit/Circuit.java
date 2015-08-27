@@ -40,11 +40,11 @@ public class Circuit {
     public void generateConnectorMapping() {
         connectorMapping = new HashMap<Connector, Connector>();
 
-        boardManager.getPieces().stream()
+        boardManager.getPiecesList().stream()
             .flatMap(piece -> piece.getConnectors().stream())
             .forEach(connector -> connector.setConnected(false));
 
-        boardManager.getPieces().stream()
+        boardManager.getPiecesList().stream()
             .forEach(piece1 ->
                 piece1.getConnectors()
                     .stream()
@@ -61,7 +61,7 @@ public class Circuit {
 
     public void runCircuitTick() {
         // let every piece write to it's output connector
-        boardManager.getPieces().stream()
+        boardManager.getPiecesList().stream()
             .forEach(piece -> piece.update());
 
         // propagate the output in the connectors further
